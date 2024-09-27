@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Inserir Access Token</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f2f2f2;
+            display: flex;
+            height: 100vh;
+            justify-content: center;
+            align-items: center;
+        }
+        .container {
+            background-color: #fff;
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+        }
+        h2 {
+            margin-bottom: 20px;
+            text-align: center;
+            color: #333;
+        }
+        input[type="text"] {
+            width: 100%;
+            padding: 12px 20px;
+            margin: 8px 0 20px 0;
+            box-sizing: border-box;
+            border: 2px solid #ccc;
+            border-radius: 4px;
+        }
+        button {
+            width: 100%;
+            background-color: #4CAF50;
+            color: white;
+            padding: 14px 20px;
+            margin-top: 10px;
+            border: none;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+        button:hover {
+            background-color: #45a049;
+        }
+        .error {
+            color: red;
+            display: none;
+            text-align: center;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <h2>Inserir Access Token</h2>
+    <input type="text" id="accessToken" placeholder="Cole o link com o Access Token aqui">
+    <button onclick="extractTokenAndRedirect()">Enviar</button>
+    <p class="error" id="errorMsg">insira um link válido contendo o Access Token.</p>
+</div>
+
+<script>
+    function extractTokenAndRedirect() {
+        const input = document.getElementById('accessToken').value.trim();
+        const errorMsg = document.getElementById('errorMsg');
+        const baseUrl = 'https://changefate.us.freefiremobile.com/?access_token=';
+        const finalPart = '&lang=pt-br&region=BR';
+        
+        // Verifica se o link inserido contém a estrutura correta
+        const tokenPrefix = 'https://gamesecurity.us.freefiremobile.com/?access_token=';
+        const langRegionPart = '&lang=pt-br&region=BR';
+
+        if (input.startsWith(tokenPrefix) && input.includes(langRegionPart)) {
+            // Extrair apenas o access_token da URL inserida
+            const token = input.substring(tokenPrefix.length, input.indexOf(langRegionPart));
+            
+            if (token) {
+                const fullUrl = baseUrl + encodeURIComponent(token) + finalPart;
+                window.location.href = fullUrl; //Redireciona para a URL correta
+            } else {
+                errorMsg.textContent = 'Access Token não encontrado.';
+                errorMsg.style.display = 'block';
+            }
+        } else {
+            errorMsg.textContent = 'insira um link válido contendo o Access Token.';
+            errorMsg.style.display = 'block';
+        }
+    }
+</script>
+
+</body>
+</html>
